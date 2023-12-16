@@ -66,6 +66,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
             }
         });
 
+        
         const quantitySelect = document.querySelector(`.js-quantity-selector-${productId}`);
             let quantity  = Number(quantitySelect.value);
 
