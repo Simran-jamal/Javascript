@@ -1,17 +1,17 @@
-import {cart, removeFromCart} from '../data/cart.js';
-import {products} from '../data/products.js';
+import { cart, removeFromCart } from '../data/cart.js';
+import { products } from '../data/products.js';
 let cartSummaryHtml = '';
 
-cart.forEach((cartItem)=>{
-    const productId = cartItem.productId;
-    let matchingProduct;
-    products.forEach((product)=>{
+cart.forEach((cartItem) => {
+  const productId = cartItem.productId;
+  let matchingProduct;
+  products.forEach((product) => {
 
-        if(product.id===productId){
-            matchingProduct=product;
-        }
-    });
-    cartSummaryHtml += `
+    if (product.id === productId) {
+      matchingProduct = product;
+    }
+  });
+  cartSummaryHtml += `
     <div class="cart-item-container js-cart-item-container-${productId}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
@@ -95,21 +95,28 @@ cart.forEach((cartItem)=>{
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHtml;
 
 document.querySelectorAll('.js-delete-link')
-.forEach((link)=>{
-  link.addEventListener('click',()=>{
-   const productId = link.dataset.productId;
-   removeFromCart(productId);
+  .forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+      removeFromCart(productId);
 
-   const container = document.querySelector(`.js-cart-item-container-${productId}`);
-   container.remove();
-   
-});
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      container.remove();
 
-})
-let cartQuantity = 0;
-cart.forEach((cartItem) => {
-  cartQuantity += cartItem.quantity;
-});
+      updateCartQuantity();
+
+    });
+
+  })
+
+export function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  document.querySelector('.js-return-to-home').innerHTML = `${cartQuantity} item`
+}
+updateCartQuantity();
 
 
-document.querySelector('.js-return-to-home').innerHTML = `${cartQuantity} item`
+
