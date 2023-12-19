@@ -106,3 +106,10 @@ document.querySelectorAll('.js-delete-link')
 });
 
 })
+let cartQuantity = 0;
+cart.forEach((cartItem) => {
+  cartQuantity += cartItem.quantity;
+});
+
+
+document.querySelector('.js-return-to-home').innerHTML = `${cartQuantity} item`
