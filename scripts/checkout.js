@@ -1,5 +1,6 @@
 import { cart, removeFromCart, calculateCartQuntity, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
+
 let cartSummaryHtml = '';
 
 cart.forEach((cartItem) => {
