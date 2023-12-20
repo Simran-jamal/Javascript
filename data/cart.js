@@ -68,3 +68,19 @@ export function addToCart(productId) {
   });
   return cartQuantity;
   }
+
+  export function updateQuantity(productId, newQuantity){
+    let machingItem;
+    cart.forEach((cartItem) => {
+      if (productId === cartItem.productId) {
+        machingItem = cartItem;
+      }
+      
+    });
+    machingItem.quantity = newQuantity;
+
+    savetoStorage();
+
+
+
+  }
