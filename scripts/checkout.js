@@ -1,12 +1,7 @@
 import { cart, removeFromCart, calculateCartQuntity, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
-import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions } from '../data/delivaryOptions.js';
-
-hello();
-
-
 
 
 let cartSummaryHtml = '';
@@ -20,19 +15,20 @@ cart.forEach((cartItem) => {
       matchingProduct = product;
     }
   });
-
+ 
   const deliveryOptionId = cartItem.deliveryOptionId;
   let deliveryOption;
   deliveryOptions.forEach((option)=>{
     if(option.id === deliveryOptionId){
       deliveryOption = option;
     }
-  })
-    const today = dayjs();
+  }); 
+  const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
     const dateString =deliveryDate.format(
       'dddd, MMMM D'
     );
+    
 
 
   cartSummaryHtml += `
@@ -90,7 +86,7 @@ function delivaryOptionsHTML(matchingProduct, cartItem){
     
     const priceString =deliveryOption.price === 0
     ? 'Free'
-    : `${deliveryOption.price}`
+    : `${deliveryOption.price} -`;
 
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
     html +=`
