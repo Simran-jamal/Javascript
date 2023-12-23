@@ -1,16 +1,21 @@
 import { cart } from "../../data/cart"
 import { getProduct } from "../../data/products";
 import { getDeliveryOption } from "../../data/delivaryOptions";
-export function renderPaymentSummary(){
+
+ 
+  export function renderPaymentSummary(){
     let productPrice = 0;
     let shippingPrice = 0;
-    cart.array.forEach((cartItem) => {
+    
+    cart.forEach((cartItem) => {
        const product = getProduct(cartItem.productId);
        productPrice += product.price * cartItem.quantity;
         
-       const deliveryoption = getDeliveryOption(cartItem.getDeliveryOptionId);
+       const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
 
-      shippingPrice +=  deliveryoption.price
+      shippingPrice += deliveryOption.price;
+      console.log(deliveryOption)
+      console.log(shippingPrice)
     });
 
     const totalBeforeTax = productPrice + shippingPrice;
@@ -50,8 +55,6 @@ export function renderPaymentSummary(){
           <button class="place-order-button button-primary">
             Place your order
           </button>
-
-    
     `;
 
     document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHtml;

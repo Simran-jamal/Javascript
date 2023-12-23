@@ -1,5 +1,6 @@
 export function getProduct(productId){
   let matchingProduct;
+
   products.forEach((product) => {
 
     if (product.id === productId) {
@@ -695,8 +696,5 @@ export function getProduct(productId){
     keywords: [
       "backpack",
       "bag"
-      
-    ]
-  }
-
-];
+      ]
+  }];
