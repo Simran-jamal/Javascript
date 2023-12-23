@@ -85,7 +85,16 @@ export function updateQuantity(productId, newQuantity) {
   machingItem.quantity = newQuantity;
 
   savetoStorage();
+}
 
+export function updateDeliveryOption(productId, deliveryOptionId){
+  let machingItem;
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      machingItem = cartItem;
+    }
 
-
+  });
+  machingItem.deliveryOptionId= deliveryOptionId;
+  savetoStorage();
 }
