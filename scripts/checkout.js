@@ -4,8 +4,8 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions } from '../data/delivaryOptions.js';
 
 
+function renderOrderSummary(){
 let cartSummaryHtml = '';
-
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
   let matchingProduct;
@@ -22,12 +22,15 @@ cart.forEach((cartItem) => {
     if(option.id === deliveryOptionId){
       deliveryOption = option;
     }
-  }); 
+    });
+    
   const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
     const dateString =deliveryDate.format(
       'dddd, MMMM D'
     );
+  
+ 
     
 
 
@@ -128,7 +131,7 @@ document.querySelectorAll('.js-delete-link')
 
     });
 
-  })
+  });
 
 function updateCartQuantity() {
   const cartQuantity = calculateCartQuntity();
@@ -143,12 +146,9 @@ document.querySelectorAll('.js-update-link')
 
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
       container.classList.add('is-editing');
+    });
 
-
-
-    })
-
-  })
+  });
 document.querySelectorAll('.js-save-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
@@ -181,7 +181,10 @@ document.querySelectorAll('.js-delivery-option')
   element.addEventListener('click', ()=>{
     const {productId, deliveryOptionId}= element.dataset;
   updateDeliveryOption(productId, deliveryOptionId);
+  renderOrderSummary();
   
-  })
+  });
 
-})
+});
+}
+renderOrderSummary();
