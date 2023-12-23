@@ -2,6 +2,8 @@ import { cart, removeFromCart, calculateCartQuntity, updateQuantity, updateDeliv
 import { products, getProduct } from '../../data/products.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/delivaryOptions.js';
+import { renderPaymentSummary } from './paymentSummary.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 
 export function renderOrderSummary(){
@@ -115,6 +117,7 @@ document.querySelectorAll('.js-delete-link')
 
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
       container.remove();
+      renderPaymentSummary();
 
       updateCartQuantity();
 
@@ -171,6 +174,7 @@ document.querySelectorAll('.js-delivery-option')
     const {productId, deliveryOptionId}= element.dataset;
   updateDeliveryOption(productId, deliveryOptionId);
   renderOrderSummary();
+  renderPaymentSummary();
   
   });
 
