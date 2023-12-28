@@ -2,7 +2,38 @@ import { cart, removeFromCart, calculateCartQuntity, updateQuantity, updateDeliv
 import {  getProduct } from '../data/products.js';
 import { products } from '../data/products.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions, getDeliveryOption } from '../data/delivaryOptions.js';
+import { calculateDeliveryOption, deliveryOptions, getDeliveryOption } from '../data/delivaryOptions.js';
+
+
+
+renderCheckoutHeader();
+
+ function renderCheckoutHeader(){
+  let cartQuantity = calculateCartQuntity();
+    
+    const checkoutHeaderHTML =`
+    <div class="header-content">
+        <div class="checkout-header-left-section">
+          <a href="amazon.html">
+            <img class="amazon-logo" src="images/amazon-logo.png">
+            <img class="amazon-mobile-logo" src="images/amazon-mobile-logo.png">
+          </a>
+        </div>
+
+        <div class="checkout-header-middle-section">
+          Checkout (<a class="return-to-home-link js-return-to-home"
+            href="amazon.html"> ${cartQuantity} items</a>)
+        </div>
+
+        <div class="checkout-header-right-section">
+          <img src="images/icons/checkout-lock-icon.png">
+        </div>
+      </div>
+    `;
+    document.querySelector('.js-checkout-header').innerHTML = checkoutHeaderHTML;
+}
+renderCheckoutHeader();
+
 
 export function renderOrderSummary(){
 
@@ -17,12 +48,7 @@ export function renderOrderSummary(){
   
   const deliveryOption = getDeliveryOption(deliveryOptionId);
   
-    
-  const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString = deliveryDate.format(
-      'dddd, MMMM D'
-    );
+  const dateString = calculateDeliveryOption(deliveryOption);  
   
   cartSummaryHtml += `
     <div class="cart-item-container js-cart-item-container-${productId}">
@@ -71,11 +97,7 @@ export function renderOrderSummary(){
 function delivaryOptionsHTML(matchingProduct, cartItem){
   let html = '';
   deliveryOptions.forEach((deliveryOption)=>{
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString = deliveryDate.format(
-      'dddd, MMMM D'
-    );
+    const dateString = calculateDeliveryOption(deliveryOption);
     
     const priceString = deliveryOption.price === 0
     ? 'Free'
@@ -113,22 +135,23 @@ document.querySelectorAll('.js-delete-link')
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-
-      const container = document.querySelector(`.js-cart-item-container-${productId}`);
-      container.remove();
+      
+      renderCheckoutHeader();
+      renderOrderSummary();
       renderPaymentSummary();
 
-      updateCartQuantity();
+      // updateCartQuantity();
+      renderCheckoutHeader();
 
     });
 
   });
 
-function updateCartQuantity() {
-  const cartQuantity = calculateCartQuntity();
-  document.querySelector('.js-return-to-home').innerHTML = `${cartQuantity} item`
-}
-updateCartQuantity();
+// function updateCartQuantity() {
+//   const cartQuantity = calculateCartQuntity();
+//   // document.querySelector('.js-return-to-home').innerHTML = `${cartQuantity} item`
+// }
+// updateCartQuantity();
 
 document.querySelectorAll('.js-update-link')
   .forEach((link) => {
@@ -162,7 +185,8 @@ document.querySelectorAll('.js-save-link')
 
       const quantityabel = document.querySelector(`.js-quantity-label-${productId}`);
       quantityabel.innerHTML = newQuantity;
-      updateCartQuantity();
+      // updateCartQuantity();
+      renderCheckoutHeader();
     });
   });
 
@@ -199,13 +223,15 @@ export function renderPaymentSummary(){
     const tax = totalBeforeTax * 0.1;
     const total = totalBeforeTax + tax;
 
+    const cartQuantity = calculateCartQuntity();
+
     let paymentSummaryHtml = `
     <div class="payment-summary-title">
             Order Summary
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div>Items ${cartQuantity}</div>
             <div class="payment-summary-money">${productPrice}</div>
           </div>
 
@@ -238,3 +264,5 @@ export function renderPaymentSummary(){
 
 }
 renderPaymentSummary();
+
+
