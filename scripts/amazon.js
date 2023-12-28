@@ -22,6 +22,7 @@ products.forEach((product) => {
         ${product.rating.count}
       </div>
     </div>
+    
 
     <div class="product-price">
       ${product.price}
